@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="mb-4 fw-bold">Add New Expense</h2>
+
+<div class="card p-4 shadow-sm">
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Amount (₹)</label>
+            <input type="number" step="0.01" class="form-control" name="amount" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Category</label>
+            <select class="form-select" name="category" required>
+                <option value="Food">Food</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Rent">Rent</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Travel">Travel</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Gas">Gas</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Date</label>
+            <input type="date" class="form-control" name="date" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Description</label>
+            <textarea class="form-control" rows="2" name="description"></textarea>
+        </div>
+
+        <button class="btn btn-success w-100 mt-2">Submit Expense</button>
+
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary w-100 mt-2">
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+{% endblock %}
+
+

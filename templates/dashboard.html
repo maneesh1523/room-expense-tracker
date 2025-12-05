@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="mb-4">Welcome, {{ user.name }} 👋</h2>
+
+<!-- A: Total Expenses -->
+<div class="card p-3 mb-4 shadow-sm">
+    <h4 class="fw-bold">Total Expenses: ₹{{ total_expense }}</h4>
+</div>
+
+<!-- B: Spent by Each User -->
+<div class="card p-3 mb-4 shadow-sm">
+    <h4 class="fw-bold">Amount Spent by Each Member</h4>
+    <ul class="list-group mt-2">
+        {% for name, amount in spent_by_user.items() %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span><strong>{{ name }}</strong></span>
+                <span>₹{{ amount }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% if user.role == "admin" %}
+<!-- C: Equal Share -->
+<div class="card p-3 mb-4 shadow-sm">
+    <h4 class="fw-bold">Equal Share Per Person: ₹{{ equal_share }}</h4>
+    <small class="text-muted">Only admin can view settlements.</small>
+</div>
+
+<!-- D: Final Settlement -->
+<div class="card p-4 shadow-sm">
+    <h4 class="fw-bold mb-3">Final Settlement Sheet</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Spent</th>
+                <th>Equal Share</th>
+                <th>Difference</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in settlement %}
+            <tr>
+                <td>{{ row.name }}</td>
+                <td>₹{{ row.spent }}</td>
+                <td>₹{{ row.equal_share }}</td>
+                <td>₹{{ row.difference }}</td>
+                <td>
+                    {% if row.difference > 0 %}
+                        <span class="text-success fw-bold">Gets back ₹{{ row.difference }}</span>
+                    {% elif row.difference < 0 %}
+                        <span class="text-danger fw-bold">Owes ₹{{ row.difference | abs }}</span>
+                    {% else %}
+                        <span class="text-secondary">Settled</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Buttons -->
+<div class="mt-4">
+    <a href="/add_expense" class="btn btn-success me-2">Add Expense</a>
+    <a href="/expenses" class="btn btn-primary">View Expenses</a>
+    <a href="/download_pdf" class="btn btn-dark ms-2">Download PDF Report</a>
+
+</div>
+
+{% endblock %}
+
+
+
